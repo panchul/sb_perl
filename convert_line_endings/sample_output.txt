@@ -1,0 +1,5 @@
+
+some line with windows-induced line ending
+
+another one 
+

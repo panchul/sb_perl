@@ -1,0 +1,21 @@
+version: "2"
+
+# Here's some info about how it all works:
+# https://github.com/confluentinc/cp-docker-images
+# http://docs.confluent.io/current/cp-docker-images/docs/quickstart.html
+
+services:
+  zookeeper{{ ZOOKEEPER_NODE_NUMBER }}:
+    image: {{ ZOOKEEPER_DOCKER_IMAGE }}
+    network_mode: host
+    hostname: {{ ZOOKEEPER_NODE_HOSTNAME }}
+    environment:
+      ZOOKEEPER_SERVER_ID: {{ ZOOKEEPER_NODE_NUMBER }}
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_SERVERS: {{ ZOOKEEPER_SERVERS_LIST }}
+    volumes:
+      - /home/{{ ZOOKEEPER_USER_NAME }}/zookeeper-data:/opt/zookeeper-{{ ZOOKEEPER_DOCKER_IMAGE_VERSION }}/data
+

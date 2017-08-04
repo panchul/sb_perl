@@ -12,5 +12,12 @@ I will gradually migrate the notes I have to this repository. To keep track of w
 + convert_man_page
     - Demoes how to format a file
      
++ loading_configs
+    - Demoes how to convert a file into hash table, with or without CPAN libraries.
+
++ kafka_config_generator
+    - A template how to generate interconnected configuration of multiple config files for different nodes.
+    - Besides config files (for Zookeeper and Kafka as example), creates a deployment shell script to place the files at the nodes.
+    
      
 

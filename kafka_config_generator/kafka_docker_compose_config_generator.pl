@@ -15,14 +15,14 @@
 # DOCKER_COMPOSE_ZOOKEEPER_TEMPLATE_FILENAME=docker-compose-zookeeper.txt
 # ZOOKEEPER_NUMBER_OF_NODES=3
 # ZOOKEEPER_DOCKER_COMPOSE_FILENAME_BASE=docker-compose-zookeeper
-# ZOOKEEPER_HOSTNAME_TEMPLATE=zookeeper{{ ZOOKEEPER_NODE_NUMBER }}.mydomain.com
+# ZOOKEEPER_HOSTNAME_TEMPLATE=zookeeper\{\{ ZOOKEEPER_NODE_NUMBER \}\}.mydomain.com
 # KAFKA_DOCKER_IMAGE=confluentinc/cp-kafka
 # KAFKA_DOCKER_IMAGE_VERSION=3.2.1
 # KAFKA_USERNAME=kafkaadmin
 # DOCKER_COMPOSE_KAFKA_TEMPLATE_FILENAME=templates/docker_compose_kafka_template.txt
 # KAFKA_NUMBER_OF_NODES=3
 # KAFKA_DOCKER_COMPOSE_FILENAME_BASE=docker-compose-kafka
-# KAFKA_HOSTNAME_TEMPLATE=kafka{{ KAFKA_NODE_NUMBER }}.mydomain.com
+# KAFKA_HOSTNAME_TEMPLATE=kafka\{\{ KAFKA_NODE_NUMBER \}\}.mydomain.com
 # SSH_SERVER_KEY_FOR_UPLOADS="~/mykey4uloads.pem"
 # DEPLOYMENT_SCRIPT_FILENAME="~/deploy_kafka.sh"
 
@@ -57,7 +57,7 @@ my $zookeeper_number_of_nodes = exists $Recipe{"ZOOKEEPER_NUMBER_OF_NODES"} ?
 my $zookeeper_docker_compose_filename_base = exists $Recipe{"ZOOKEEPER_DOCKER_COMPOSE_FILENAME_BASE"} ?
     $Recipe{"ZOOKEEPER_DOCKER_COMPOSE_FILENAME_BASE"} : "docker-compose-zookeeper"; # (the numbers will be appended), and then ".yml" 
 my $zookeeper_hostname_template = exists $Recipe{"ZOOKEEPER_HOSTNAME_TEMPLATE"} ?
-    $Recipe{"ZOOKEEPER_HOSTNAME_TEMPLATE"} : "zookeeper{{ ZOOKEEPER_NODE_NUMBER }}.mydomain.com";
+    $Recipe{"ZOOKEEPER_HOSTNAME_TEMPLATE"} : "zookeeper\{\{ ZOOKEEPER_NODE_NUMBER \}\}.mydomain.com";
 
 #print "Creating a set of zookeeper docker-compose files for ${zookeeper_number_of_nodes} nodes.\n";
 #print("Zookeeper docker-compose template: ", $docker_compose_zookeeper_template_filename,"\"\n");
@@ -76,7 +76,7 @@ my $kafka_number_of_nodes = exists $Recipe{"KAFKA_NUMBER_OF_NODES"} ?
 my $kafka_docker_compose_filename_base = exists $Recipe{"KAFKA_DOCKER_COMPOSE_FILENAME_BASE"} ?
     $Recipe{"KAFKA_DOCKER_COMPOSE_FILENAME_BASE"} : "docker-compose-kafka"; # (the numbers will be appended), and then ".yml" 
 my $kafka_hostname_template = exists $Recipe{"KAFKA_HOSTNAME_TEMPLATE"} ?
-    $Recipe{"KAFKA_HOSTNAME_TEMPLATE"} : "kafka{{ KAFKA_NODE_NUMBER }}.mydomain.com";
+    $Recipe{"KAFKA_HOSTNAME_TEMPLATE"} : "kafka\{\{ KAFKA_NODE_NUMBER \}\}.mydomain.com";
 
 my $deployment_script_filename = exists $Recipe{"DEPLOYMENT_SCRIPT_FILENAME"} ?
     $Recipe{"DEPLOYMENT_SCRIPT_FILENAME"} : "deploy_kafka.sh";
@@ -97,7 +97,7 @@ my $kafka_zookeeper_connect="";
 
 while($i++ < $zookeeper_number_of_nodes) {
     my $zookeeper_hostname = $zookeeper_hostname_template;
-    $zookeeper_hostname=~ s/{{ ZOOKEEPER_NODE_NUMBER }}/${i}/g;
+    $zookeeper_hostname=~ s/\{\{ ZOOKEEPER_NODE_NUMBER \}\}/${i}/g;
 
     $zookeeper_servers_list_full .= $zookeeper_hostname . ":2888:3888";
     $kafka_zookeeper_connect .= $zookeeper_hostname . ":2181";
@@ -120,20 +120,20 @@ while($i++ < $zookeeper_number_of_nodes) {
     print "Creating \"output/${zookeeper_docker_compose_filename}\"\n";
     
     my $zookeeper_hostname = $zookeeper_hostname_template;
-    $zookeeper_hostname=~ s/{{ ZOOKEEPER_NODE_NUMBER }}/${i}/g;
+    $zookeeper_hostname=~ s/\{\{ ZOOKEEPER_NODE_NUMBER \}\}/${i}/g;
 
     while(my $row=<$template_file_name_fh>) {
             #chomp $row;
-            $row =~ s/{{ ZOOKEEPER_NODE_NUMBER }}/$i/g;
-            $row =~ s/{{ ZOOKEEPER_DOCKER_IMAGE }}/${zookeeper_docker_image}/g;
-            $row =~ s/{{ ZOOKEEPER_DOCKER_IMAGE_VERSION }}/${zookeeper_docker_image_version}/g;
-            $row =~ s/{{ ZOOKEEPER_USER_NAME }}/${zookeeper_username}/g;
-            $row =~ s/{{ ZOOKEEPER_NODE_HOSTNAME }}/${zookeeper_hostname}/g;
+            $row =~ s/\{\{ ZOOKEEPER_NODE_NUMBER \}\}/$i/g;
+            $row =~ s/\{\{ ZOOKEEPER_DOCKER_IMAGE \}\}/${zookeeper_docker_image}/g;
+            $row =~ s/\{\{ ZOOKEEPER_DOCKER_IMAGE_VERSION \}\}/${zookeeper_docker_image_version}/g;
+            $row =~ s/\{\{ ZOOKEEPER_USER_NAME \}\}/${zookeeper_username}/g;
+            $row =~ s/\{\{ ZOOKEEPER_NODE_HOSTNAME \}\}/${zookeeper_hostname}/g;
 
             my $zookeeper_servers_list = $zookeeper_servers_list_full;
             $zookeeper_servers_list =~ s/${zookeeper_hostname}/0.0.0.0/g;
             
-            $row =~ s/{{ ZOOKEEPER_SERVERS_LIST }}/${zookeeper_servers_list}/g;
+            $row =~ s/\{\{ ZOOKEEPER_SERVERS_LIST \}\}/${zookeeper_servers_list}/g;
 
             print $next_fh $row;
     }
@@ -156,16 +156,16 @@ while($i++ < $kafka_number_of_nodes) {
     print "Creating \"output/${kafka_docker_compose_filename}\"\n";
     
     my $kafka_hostname = $kafka_hostname_template;
-    $kafka_hostname=~ s/{{ KAFKA_NODE_NUMBER }}/${i}/g;
+    $kafka_hostname=~ s/\{\{ KAFKA_NODE_NUMBER \}\}/${i}/g;
 
     while(my $row=<$template_file_name_fh>) {
         #chomp $row;
-        $row =~ s/{{ KAFKA_NODE_NUMBER }}/$i/g;
-        $row =~ s/{{ KAFKA_DOCKER_IMAGE }}/${kafka_docker_image}/g;
-        $row =~ s/{{ KAFKA_DOCKER_IMAGE_VERSION }}/${kafka_docker_image_version}/g;
-        $row =~ s/{{ KAFKA_USER_NAME }}/${kafka_username}/g;
-        $row =~ s/{{ KAFKA_NODE_HOSTNAME }}/${kafka_hostname}/g;
-        $row =~ s/{{ KAFKA_ZOOKEEPER_CONNECT }}/${kafka_zookeeper_connect}/g;
+        $row =~ s/\{\{ KAFKA_NODE_NUMBER \}\}/$i/g;
+        $row =~ s/\{\{ KAFKA_DOCKER_IMAGE \}\}/${kafka_docker_image}/g;
+        $row =~ s/\{\{ KAFKA_DOCKER_IMAGE_VERSION \}\}/${kafka_docker_image_version}/g;
+        $row =~ s/\{\{ KAFKA_USER_NAME \}\}/${kafka_username}/g;
+        $row =~ s/\{\{ KAFKA_NODE_HOSTNAME \}\}/${kafka_hostname}/g;
+        $row =~ s/\{\{ KAFKA_ZOOKEEPER_CONNECT \}\}/${kafka_zookeeper_connect}/g;
 
         print $next_fh $row;
     }

@@ -2,7 +2,7 @@
 ZOOKEEPER_DOCKER_IMAGE=confluentinc/cp-zookeeper
 ZOOKEEPER_DOCKER_IMAGE_VERSION=3.2.1
 ZOOKEEPER_USERNAME=zkadmin
-DOCKER_COMPOSE_ZOOKEEPER_TEMPLATE_FILENAME=templates/docker_compose_zookeeper_template.txt
+ZOOKEEPER_DOCKER_COMPOSE_TEMPLATE=templates/docker_compose_zookeeper_template.txt
 ZOOKEEPER_NUMBER_OF_NODES=3
 ZOOKEEPER_DOCKER_COMPOSE_FILENAME_BASE=docker-compose-zookeeper
 ZOOKEEPER_HOSTNAME_TEMPLATE=zookeeper{{ ZOOKEEPER_NODE_NUMBER }}.mydomain.com
@@ -10,7 +10,7 @@ ZOOKEEPER_HOSTNAME_TEMPLATE=zookeeper{{ ZOOKEEPER_NODE_NUMBER }}.mydomain.com
 KAFKA_DOCKER_IMAGE=confluentinc/cp-kafka
 KAFKA_DOCKER_IMAGE_VERSION=3.2.1
 KAFKA_USERNAME=kafkaadmin
-DOCKER_COMPOSE_KAFKA_TEMPLATE_FILENAME=templates/docker_compose_kafka_template.txt
+KAFKA_DOCKER_COMPOSE_TEMPLATE=templates/docker_compose_kafka_template.txt
 KAFKA_NUMBER_OF_NODES=3
 KAFKA_DOCKER_COMPOSE_FILENAME_BASE=docker-compose-kafka
 KAFKA_HOSTNAME_TEMPLATE=kafka{{ KAFKA_NODE_NUMBER }}.mydomain.com

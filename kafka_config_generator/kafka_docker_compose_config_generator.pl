@@ -12,7 +12,7 @@
 # ZOOKEEPER_DOCKER_IMAGE=confluentinc/cp-zookeeper
 # ZOOKEEPER_DOCKER_IMAGE_VERSION=3.2.1
 # ZOOKEEPER_USERNAME=zkadmin
-# DOCKER_COMPOSE_ZOOKEEPER_TEMPLATE_FILENAME=docker-compose-zookeeper.txt
+# ZOOKEEPER_DOCKER_COMPOSE_TEMPLATE=docker-compose-zookeeper.txt
 # ZOOKEEPER_NUMBER_OF_NODES=3
 # ZOOKEEPER_DOCKER_COMPOSE_FILENAME_BASE=docker-compose-zookeeper
 # ZOOKEEPER_HOSTNAME_TEMPLATE=zookeeper\{\{ ZOOKEEPER_NODE_NUMBER \}\}.mydomain.com
@@ -50,8 +50,8 @@ my $zookeeper_docker_image_version = exists $Recipe{"ZOOKEEPER_DOCKER_IMAGE_VERS
 my $zookeeper_docker_image = "${zookeeper_docker_image_base}:${zookeeper_docker_image_version}";
 my $zookeeper_username= exists $Recipe{"ZOOKEEPER_USERNAME"} ? $Recipe{"ZOOKEEPER_USERNAME"} : "zkadmin";
 
-my $docker_compose_zookeeper_template_filename = exists $Recipe{"DOCKER_COMPOSE_ZOOKEEPER_TEMPLATE_FILENAME"} ?
-    $Recipe{"DOCKER_COMPOSE_ZOOKEEPER_TEMPLATE_FILENAME"} : "templates/docker_compose_zookeeper_template.txt";
+my $docker_compose_zookeeper_template_filename = exists $Recipe{"ZOOKEEPER_DOCKER_COMPOSE_TEMPLATE"} ?
+    $Recipe{"ZOOKEEPER_DOCKER_COMPOSE_TEMPLATE"} : "templates/docker_compose_zookeeper_template.txt";
 my $zookeeper_number_of_nodes = exists $Recipe{"ZOOKEEPER_NUMBER_OF_NODES"} ?
     $Recipe{"ZOOKEEPER_NUMBER_OF_NODES"} : "3";
 my $zookeeper_docker_compose_filename_base = exists $Recipe{"ZOOKEEPER_DOCKER_COMPOSE_FILENAME_BASE"} ?
@@ -69,8 +69,8 @@ my $kafka_docker_image_version = exists $Recipe{"KAFKA_DOCKER_IMAGE_VERSION"} ?
 my $kafka_docker_image = "${kafka_docker_image_base}:${kafka_docker_image_version}";
 my $kafka_username= exists $Recipe{"KAFKA_USERNAME"} ? $Recipe{"KAFKA_USERNAME"} : "kafkaadmin";
 
-my $docker_compose_kafka_template_filename = exists $Recipe{"DOCKER_COMPOSE_KAFKA_TEMPLATE_FILENAME"} ?
-    $Recipe{"DOCKER_COMPOSE_KAFKA_TEMPLATE_FILENAME"} : "templates/docker_compose_kafka_template.txt";
+my $docker_compose_kafka_template_filename = exists $Recipe{"KAFKA_DOCKER_COMPOSE_TEMPLATE"} ?
+    $Recipe{"KAFKA_DOCKER_COMPOSE_TEMPLATE"} : "templates/docker_compose_kafka_template.txt";
 my $kafka_number_of_nodes = exists $Recipe{"KAFKA_NUMBER_OF_NODES"} ?
     $Recipe{"KAFKA_NUMBER_OF_NODES"} : "3";
 my $kafka_docker_compose_filename_base = exists $Recipe{"KAFKA_DOCKER_COMPOSE_FILENAME_BASE"} ?
@@ -90,6 +90,8 @@ my $ssh_server_key_for_uploads = exists $Recipe{"SSH_SERVER_KEY_FOR_UPLOADS"} ?
 open (my $deployment_script_fh, ">", "output/$deployment_script_filename") or die "Could not open \"output/${deployment_script_filename}\": $!";
 
 print "Creating \"output/${deployment_script_filename}\"\n";
+
+print $deployment_script_fh "#!/usr/bin/env bash\n";
 
 my $i = 0;
 my $zookeeper_servers_list_full = "";

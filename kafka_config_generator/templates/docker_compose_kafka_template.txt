@@ -16,14 +16,14 @@ services:
       KAFKA_BROKER_ID: {{ KAFKA_NODE_NUMBER }}
       KAFKA_ZOOKEEPER_CONNECT: {{ KAFKA_ZOOKEEPER_CONNECT }}
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
-      KAFKA_NUM_PARTITIONS: "12"
+      KAFKA_NUM_PARTITIONS: "5"
       KAFKA_DELETE_TOPICS_ENABLE: "true"
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://{{ KAFKA_NODE_HOSTNAME }}:9092
       KAFKA_ADVERTISED_HOST_NAME: {{ KAFKA_NODE_HOSTNAME }}
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
-      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false - Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote.rmi.port=1099"
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote.rmi.port=1099"
       JMX_PORT: 1099
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /home/{{ KAFKA_USER_NAME }}/kafka-data:/kafka/data
+      - /home/{{ KAFKA_USER_NAME }}/kafka-data:/var/lib/kafka/data
 

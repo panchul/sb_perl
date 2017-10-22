@@ -104,7 +104,7 @@ while($i++ < $zookeeper_number_of_nodes) {
     $zookeeper_servers_list_full .= $zookeeper_hostname . ":2888:3888";
     $kafka_zookeeper_connect .= $zookeeper_hostname . ":2181";
     
-    if($i > 0) {
+    if($i < $zookeeper_number_of_nodes) {
         $zookeeper_servers_list_full .= ";";
         $kafka_zookeeper_connect .= ",";
     }
